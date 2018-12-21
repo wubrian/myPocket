@@ -9,9 +9,94 @@
 
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
+    <!-- CSS -->
+    <link rel="stylesheet" href="./layout.css">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   </head>
-
   <body>
-    <h1>Hello World!</h1>
+      <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
+          <a class="navbar-brand" href="#">MyPocket</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mr-auto">
+                  <li class="nav-item active">
+                      <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                  </li>
+                  <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Categories
+                      </a>
+                      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="#">Act1</a>
+                      <a class="dropdown-item" href="#">Act2</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="#">Act3</a>
+                      </div>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="#">Sign up</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="#">Login</a>
+                  </li>
+              </ul>
+              <form class="form-inline my-2 my-lg-0">
+              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+              </form>
+          </div>
+      </nav>
+      <main class="container">
+          <div class="row">
+              <div class="col-lg-4">
+                  <figure class="thisfig">
+                      <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/pr-sample2.jpg" alt="sample8" />
+                      <figcaption>
+                          <h2>Name <span>Brian</span></h2>
+                          <p>I'm a genius, and no one is smarter than me.</p>
+                          <div class="icons">
+                              <a href="#"><i class="ion-ios-home"></i></a>
+                              <a href="#"><i class="ion-email-unread"></i></a>
+                              <a href="#"><i class="ion-ios-star"></i></a>
+                          </div>
+                      </figcaption>
+                  </figure>
+              </div>
+              <div class="col-lg-4">
+                  <figure class="thisfig">
+                      <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/pr-sample2.jpg" alt="sample8" />
+                      <figcaption>
+                          <h2>Name <span>Brian</span></h2>
+                          <p>I'm a genius, and no one is smarter than me.</p>
+                          <div class="icons">
+                              <a href="#"><i class="ion-ios-home"></i></a>
+                              <a href="#"><i class="ion-email-unread"></i></a>
+                              <a href="#"><i class="ion-ios-star"></i></a>
+                          </div>
+                      </figcaption>
+                  </figure>
+              </div>
+              <div class="col-lg-4">
+                  <figure class="thisfig">
+                      <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/pr-sample2.jpg" alt="sample8" />
+                      <figcaption>
+                          <h2>Name <span>Brian</span></h2>
+                          <p>I'm a genius, and no one is smarter than me.</p>
+                          <div class="icons">
+                              <a href="#"><i class="ion-ios-home"></i></a>
+                              <a href="#"><i class="ion-email-unread"></i></a>
+                              <a href="#"><i class="ion-ios-star"></i></a>
+                          </div>
+                      </figcaption>
+                  </figure>
+              </div>
+          </div>
+      </main>
   </body>
 </html>

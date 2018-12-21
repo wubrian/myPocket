@@ -1,7 +1,120 @@
-body {
-  background-color: #EEE;
+@import url(https://fonts.googleapis.com/css?family=Raleway:400,500,800);
+@import url(https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css);
 
-  h1 {
-    color: #244751;
-  }
+figure.thisfig {
+  font-family: 'Raleway', Arial, sans-serif;
+  position: relative;
+  overflow: hidden;
+  margin: 10px;
+  /* min-width: 220px;
+  max-width: 310px; */
+  width: 100%;
+  background: #ffffff;
+  color: #000000;
+}
+
+figure.thisfig * {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-transition: all 0.35s ease-in-out;
+  transition: all 0.35s ease-in-out;
+}
+
+figure.thisfig img {
+  max-width: 100%;
+  position: relative;
+  display: block;
+}
+
+figure.thisfig:before {
+  position: absolute;
+  content: '';
+  height: 100%;
+  width: 90%;
+  z-index: 1;
+  left: -20%;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid #fff;
+  -webkit-transition: all 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out;
+  -webkit-transform: skewX(-30deg) translateX(-80%);
+  transform: skewX(-30deg) translateX(-80%);
+  -webkit-box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.5);
+  box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+figure.thisfig figcaption {
+  padding-left: 30px;
+  position: absolute;
+  left: 0;
+  top: 25%;
+  width: 60%;
+  z-index: 1;
+  opacity: 0;
+}
+
+figure.thisfig figcaption h2,
+figure.thisfig figcaption p {
+  margin: 0;
+  text-align: left;
+  padding: 5px 0 0;
+  width: 100%;
+}
+
+figure.thisfig figcaption h2 {
+  font-size: 1.4em;
+  font-weight: 300;
+  text-transform: uppercase;
+}
+
+figure.thisfig figcaption h2 span {
+  font-weight: 800;
+}
+
+figure.thisfig figcaption p {
+  font-weight: 500;
+  font-size: 1.5em;
+  opacity: 0.8;
+}
+
+figure.thisfig figcaption .icons {
+  width: 100%;
+  padding: 8px 0;
+}
+
+figure.thisfig figcaption .icons i {
+  display: inline-block;
+  font-size: 20px;
+  background: #000000;
+  color: #ffffff;
+  margin-right: 5px;
+  opacity: 0;
+  height: 35px;
+  width: 35px;
+  text-align: center;
+  line-height: 35px;
+  border-radius: 50%;
+}
+
+figure.thisfig figcaption a {
+  opacity: 0.7;
+}
+
+figure.thisfig figcaption a:hover {
+  opacity: 1;
+}
+
+figure.thisfig:hover figcaption,
+figure.thisfig.hover figcaption,
+figure.thisfig:hover .icons i,
+figure.thisfig.hover .icons i {
+  opacity: 1;
+  -webkit-transition-delay: 0.2s;
+  transition-delay: 0.2s;
+}
+
+figure.thisfig:hover:before,
+figure.thisfig.hover:before {
+  -webkit-transform: skewX(-30deg) translateX(0px);
+  transform: skewX(-30deg) translateX(0px);
 }
