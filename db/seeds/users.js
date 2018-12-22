@@ -1,19 +1,15 @@
 exports.seed = function(knex, Promise) {
-
-  
-
   return knex('urls').del()
   .then(() => knex('users').del() )
   .then(() => knex('categories').del() )
   .then(() => {
-     
     return knex('users').insert([
       {name: 'Alice', email: 'example1@gmail.com', password: '123'},
       {name: 'Bob', email: 'example2@gmail.com', password: '456'},
       {name: 'Charlie', email: 'example3@gmail.com', password: '456'},
     ]).returning('*');
- 
   }).then((users) => {
+    //seeding categories
     const categories = Promise.all([
       knex('categories').insert({name: 'Engineering'}),
       knex('categories').insert({name: 'Web Dev'}),
@@ -21,9 +17,10 @@ exports.seed = function(knex, Promise) {
     ]);
     return Promise.all([users, categories]);
   }).then(([users, categories]) => {
+    //seeding urls
     const [alice, bob, charlie] = users;
     const [engineering, webDev, cS] = categories;
-    return Promise.all([
+    const urls = Promise.all([
       knex('urls').insert({title:'https://online-learning.harvard.edu/course/cs50-introduction-computer-science', description: 'introduction to computer science from harvard', user_id: alice.id, category_id: cS.id , image: 'https://online-learning.harvard.edu/sites/default/files/styles/header/public/course/cs50x-original.jpg?itok=Cl52MS32'}),
       knex('urls').insert({title: 'https://www.fastcompany.com/28121/they-write-right-stuff', description: 'blog about how to write bug free code', user_id: bob.id, category_id:webDev.id, image: 'https://images.fastcompany.net/image/upload/w_1153,ar_16:9,c_fill,g_auto,f_auto,q_auto,fl_lossy/fc/28121-poster-p-1-fast-company-number-6-1996.jpg'}),
       knex('urls').insert({title: 'https://www.amazon.ca/Cracking-Coding-Interview-Programming-Questions/dp/0984782850/ref=sr_1_1/133-0972702-4166551?ie=UTF8&qid=1543368338&sr=8-1&keywords=cracking+the+coding+interview', description: 'book that helps with web dev interviews ', user_id: charlie.id , category_id: webDev.id , image: 'https://images-na.ssl-images-amazon.com/images/I/51l5XzLln%2BL._SX348_BO1,204,203,200_.jpg'}),
@@ -35,7 +32,38 @@ exports.seed = function(knex, Promise) {
       knex('urls').insert({title: 'https://www.wolframalpha.com/', description: 'website that helps with engineering problems', user_id: charlie.id, category_id: engineering.id, image: 'http://www.wolframalpha.com/share.png'})
     ])
   
-    
-  })
+    return Promise.all([users, categories,urls]);
+  }).then(([users, categories, urls]) => {
+    //seeding commments
+    const [alice, bob, charlie] = users;
+    const [engineering, webDev, cS] = categories;
+    const [harvard,right,interview,khanComp,khanEl,JQ,SL,AWW,wolf] = urls;
 
+    const comments = Promise.all([
+      knex('comments').insert({url_id: harvard.id, user_id: alice.id, text: "this was helpful"})
+    ])
+    return Promise.all([users, categories,urls,comments]);
+  })/*.then(([users, categories, urls,comments]) => {
+    //seeding likes
+    const [alice, bob, charlie] = users;
+    const [engineering, webDev, cS] = categories;
+    const [harvard,right,interview,khanComp,khanEl,JQ,SL,AWW,wolf] = urls;
+    
+    const likes = Promise.all([
+      knex('likes').insert({url_id: interview.id, user_id: bob.id})
+    ])
+    return Promise.all([likes]);
+  }).then(([users, categories, urls,comments, likes]) => {
+    //seeding rates
+    const [alice, bob, charlie] = users;
+    const [engineering, webDev, cS] = categories;
+    const [harvard,right,interview,khanComp,khanEl,JQ,SL,AWW,wolf] = urls;
+    
+
+    const rates = Promise.all([
+      knex('ratings').insert({url_id: SL.id, user_id: charlie.id, rating:5})
+    ])
+    return Promise.all([ratings]);
+  })
+ */
 };
