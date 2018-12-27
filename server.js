@@ -38,6 +38,11 @@ app.use(express.static("public"));
 // Mount all resource routes
 app.use("/api/users", usersRoutes(knex));
 
+// listen to port...
+app.listen(PORT, () => {
+  console.log("Example app listening on port " + PORT);
+});
+
 // Home page
 app.get("/", (req, res) => {
   res.render("index");
@@ -57,6 +62,7 @@ app.get("/cs", (req,res) => {
   res.render("cs")
 });
 
-app.listen(PORT, () => {
-  console.log("Example app listening on port " + PORT);
-});
+// MyResource page
+app.get("/myresource", (req, res) => {
+  res.render("myresource");
+})

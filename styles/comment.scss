@@ -1,0 +1,25 @@
+.commentbtn{
+    height: 30px;
+    width: 120px;
+    border: 1px solid black;
+    border-radius: 5px;
+    opacity: 0.3;
+  }
+  .commentbtn:hover {
+    opacity: 1;
+  }
+  
+  .comment {
+    border-radius: 10px;
+    border-style: solid;
+    border-color: silver;
+    padding: 10px;
+    // display: none;
+  }
+  
+   .comment textarea {
+    width: 100%;
+    align-items: center;
+    padding: 5px;
+  }
+
