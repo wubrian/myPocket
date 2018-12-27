@@ -42,6 +42,20 @@ app.use("/api/users", usersRoutes(knex));
 app.get("/", (req, res) => {
   res.render("index");
 });
+//engineering category
+app.get("/engineering", (req,res) => {
+  res.render("engineering");
+});
+
+//web development category
+app.get("/webDev", (req,res) => {
+  res.render("webDev");
+});
+
+//engineering category
+app.get("/cs", (req,res) => {
+  res.render("cs")
+});
 
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
