@@ -27,6 +27,8 @@ app.use(knexLogger(knex));
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
+
+
 app.use("/styles", sass({
   src: __dirname + "/styles",
   dest: __dirname + "/public/styles",
@@ -54,6 +56,67 @@ app.get("/register", (req, res) => {
 
 app.get("/login", (req, res) => {
   res.render("login");
+});
+
+// Search request
+app.post("/search", (req, res) => {
+  const searchText = req.body.search;
+  console.log(searchText)
+  knex.select('title','description','image','users.name','categories.category','email','password')
+  .from('urls')
+  .leftJoin('categories','urls.category_id', 'categories.id')
+  .leftJoin('users','urls.user_id', 'users.id')
+  .where('title', 'like', `%${searchText}%`)
+  .orWhere('description', 'like', `%${searchText}%`)
+  .asCallback((err,event) => {
+    if (err) throw err; 
+     console.log(event);
+     res.render("index");
+  })
+});
+
+//engineering category
+app.get("/engineering", (req,res) => {
+  knex.select('title','description','image','users.name','categories.category','email','password')
+  .from('urls')
+  .leftJoin('categories','urls.category_id', 'categories.id')
+  .leftJoin('users','urls.user_id', 'users.id')
+  .where('category', 'like', 'Engineering')
+  .asCallback((err,event) => {
+    if (err) throw err;
+     console.log(event);
+
+     res.render("engineering");
+  })
+});
+
+//web development category
+app.get("/webDev", (req,res) => {
+  knex.select('title','description','image','users.name','categories.category','email','password')
+  .from('urls')
+  .leftJoin('categories','urls.category_id', 'categories.id')
+  .leftJoin('users','urls.user_id', 'users.id')
+  .where('category', 'like', 'Web Dev')
+  .asCallback((err,event) => {
+    if (err) throw err;
+     console.log(event);
+     res.render("webDev");
+  })
+});
+
+//computer science category
+app.get("/cs", (req,res) => {
+  knex.select('title','description','image','users.name','categories.category','email','password')
+  .from('urls')
+  .leftJoin('categories','urls.category_id', 'categories.id')
+  .leftJoin('users','urls.user_id', 'users.id')
+  .where('category', 'like', 'CS')
+  .asCallback((err,event) => {
+    if (err) throw err;
+     console.log(event);
+     res.render("cs")
+
+  })
 });
 
 // MyResource page

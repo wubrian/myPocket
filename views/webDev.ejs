@@ -2,26 +2,23 @@
 <html lang="en">
   <head>
     <title>Home</title>
+
     <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
 
+    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+    <script type="text/javascript" src="/scripts/app.js"></script>
+    <script type="text/javascript" src="/routes/comment.js"></script>
     <!-- CSS -->
     <link rel="stylesheet" href="/styles/layout.css" type="text/css">
     <link rel="stylesheet" href="/styles/comment.css" type="text/css">
-    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
-
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.6.1/js/all.js" integrity="sha384-R5JkiUweZpJjELPWqttAYmYM1P3SNEJRM6ecTQF05pFFtxmCO+Y1CiUhvuDzgSVZ" crossorigin="anonymous"></script>
-    
-    <!-- JS -->
-    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
-    <script type="text/javascript" src="/scripts/app.js"></script>
-    <script type="text/javascript" src="/scripts/comment.js"></script>
-
+    <script defer src="https://use.fontawesome.com/releases/v5.6.1/js/all.js" integrity="sha384-R5JkiUweZpJjELPWqttAYmYM1P3SNEJRM6ecTQF05pFFtxmCO+Y1CiUhvuDzgSVZ" crossorigin="anonymous"></script>  
 </head>
   <body>
       <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
@@ -39,11 +36,11 @@
                       Categories
                       </a>
                       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/engineering">Engineering</a>
-                        <a class="dropdown-item" href="/webDev">Web Dev</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="/cs">Computer Science</a>
-                        </div>
+                      <a class="dropdown-item" href="/engineering">Engineering</a>
+                      <a class="dropdown-item" href="/webDev">Web Dev</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="/cs">Computer Science</a>
+                      </div>
                   </li>
                   <li class="nav-item">
                       <a class="nav-link" href="#">Sign up</a>
@@ -52,12 +49,13 @@
                       <a class="nav-link" href="#">Login</a>
                   </li>
               </ul>
-              <form class="form-inline my-2 my-lg-0" action="/search" method="POST">
-              <input name="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+              <form class="form-inline my-2 my-lg-0">
+              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
               <button class="btn btn-outline-success my-2 my-sm-0 search" type="submit">Search</button>
               </form>
           </div>
       </nav>
+      <h1>Web Dev:</h1>
       <main class="container">
           <div class="row">
               <div class="col-lg-4">
@@ -73,19 +71,6 @@
                           </div>
                       </figcaption>
                   </figure>
-                  <section class="comment">
-                    <form id="submit-comment" action="/" method="POST">
-                      <textarea name="text" placeholder="What would you like to comment?" id="cmtcontent"></textarea>
-                      <input type="submit" value="send">
-                      <span class="counter">150</span>
-                      <div class="alert-warning">
-                        <strong>Please Put Some Text Message!</strong>
-                      </div>
-                      <div class="alert-danger">
-                        <strong>You Have Exceeds 150 Characters!</strong>
-                      </div>
-                    </form>
-              </section>                  
               </div>
               <div class="col-lg-4">
                   <figure class="thisfig">
@@ -100,6 +85,12 @@
                           </div>
                       </figcaption>
                   </figure>
+                  <section class="comment">
+                        <form id="submit-comment" action="/" method="POST">
+                          <textarea name="text" placeholder="What would you like to comment?" id="tweetcontent"></textarea>
+                          <input type="submit" value="send">
+                        </form>
+                  </section>
               </div>
               <div class="col-lg-4">
                   <figure class="thisfig">
