@@ -36,11 +36,11 @@
                       Categories
                       </a>
                       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <a class="dropdown-item" href="#">Act1</a>
-                      <a class="dropdown-item" href="#">Act2</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Act3</a>
-                      </div>
+                        <a class="dropdown-item" href="/engineering">Engineering</a>
+                        <a class="dropdown-item" href="/webDev">Web Dev</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/cs">Computer Science</a>
+                        </div>
                   </li>
                   <li class="nav-item">
                       <a class="nav-link" href="#">Sign up</a>
@@ -49,9 +49,9 @@
                       <a class="nav-link" href="#">Login</a>
                   </li>
               </ul>
-              <form class="form-inline my-2 my-lg-0">
-              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+              <form class="form-inline my-2 my-lg-0" action="/search" method="POST">
+              <input name="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success my-2 my-sm-0 search" type="submit">Search</button>
               </form>
           </div>
       </nav>

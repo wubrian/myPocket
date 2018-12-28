@@ -27,6 +27,8 @@ app.use(knexLogger(knex));
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
+
+
 app.use("/styles", sass({
   src: __dirname + "/styles",
   dest: __dirname + "/public/styles",
@@ -47,6 +49,26 @@ app.listen(PORT, () => {
 app.get("/", (req, res) => {
   res.render("index");
 });
+
+// Search request
+app.post("/search", (req, res) => {
+  const searchText = req.body.search;
+  console.log(searchText)
+  knex.select('title','description','image','users.name','categories.category','email','password')
+  .from('urls')
+  .leftJoin('categories','urls.category_id', 'categories.id')
+  .leftJoin('users','urls.user_id', 'users.id')
+  .where('title', 'like', `%${searchText}%`)
+  .orWhere('description', 'like', `%${searchText}%`)
+  .asCallback((err,res) => {
+    if (err) throw err; 
+     console.log(res);
+    
+    
+  })
+  res.redirect("/");
+});
+
 //engineering category
 app.get("/engineering", (req,res) => {
   res.render("engineering");
