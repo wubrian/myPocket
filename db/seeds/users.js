@@ -51,7 +51,21 @@ exports.seed = function(knex, Promise) {
     //seeding likes
     
     const likes = Promise.all([
-      knex('likes').insert({url_id: 5002, user_id: 2001})
+      knex('likes').insert({url_id: 5000, user_id: 2001}),
+      knex('likes').insert({url_id: 5000}),
+      knex('likes').insert({url_id: 5000}),
+      knex('likes').insert({url_id: 5000}),
+      knex('likes').insert({url_id: 5000}),
+      knex('likes').insert({url_id: 5000}),
+      knex('likes').insert({url_id: 5002, user_id: 2001}),
+      knex('likes').insert({url_id: 5002}),
+      knex('likes').insert({url_id: 5002}),
+      knex('likes').insert({url_id: 5002}),
+      knex('likes').insert({url_id: 5002}),
+      knex('likes').insert({url_id: 5002}),
+      knex('likes').insert({url_id: 5002}),
+      knex('likes').insert({url_id: 5002}),
+      knex('likes').insert({url_id: 5003, user_id: 2001}),
     ])
     return Promise.all([likes]);
   }).then(() => {

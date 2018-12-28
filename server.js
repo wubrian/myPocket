@@ -60,28 +60,55 @@ app.post("/search", (req, res) => {
   .leftJoin('users','urls.user_id', 'users.id')
   .where('title', 'like', `%${searchText}%`)
   .orWhere('description', 'like', `%${searchText}%`)
-  .asCallback((err,res) => {
+  .asCallback((err,event) => {
     if (err) throw err; 
-     console.log(res);
-    
-    
+     console.log(event);
+     res.render("index");
   })
-  res.redirect("/");
 });
 
 //engineering category
 app.get("/engineering", (req,res) => {
-  res.render("engineering");
+  knex.select('title','description','image','users.name','categories.category','email','password')
+  .from('urls')
+  .leftJoin('categories','urls.category_id', 'categories.id')
+  .leftJoin('users','urls.user_id', 'users.id')
+  .where('category', 'like', 'Engineering')
+  .asCallback((err,event) => {
+    if (err) throw err;
+     console.log(event);
+
+     res.render("engineering");
+  })
 });
 
 //web development category
 app.get("/webDev", (req,res) => {
-  res.render("webDev");
+  knex.select('title','description','image','users.name','categories.category','email','password')
+  .from('urls')
+  .leftJoin('categories','urls.category_id', 'categories.id')
+  .leftJoin('users','urls.user_id', 'users.id')
+  .where('category', 'like', 'Web Dev')
+  .asCallback((err,event) => {
+    if (err) throw err;
+     console.log(event);
+     res.render("webDev");
+  })
 });
 
-//engineering category
+//computer science category
 app.get("/cs", (req,res) => {
-  res.render("cs")
+  knex.select('title','description','image','users.name','categories.category','email','password')
+  .from('urls')
+  .leftJoin('categories','urls.category_id', 'categories.id')
+  .leftJoin('users','urls.user_id', 'users.id')
+  .where('category', 'like', 'CS')
+  .asCallback((err,event) => {
+    if (err) throw err;
+     console.log(event);
+     res.render("cs")
+
+  })
 });
 
 // MyResource page
