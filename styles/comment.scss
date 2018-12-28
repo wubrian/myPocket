@@ -14,7 +14,7 @@
     border-style: solid;
     border-color: silver;
     padding: 10px;
-    // display: none;
+    display: none;
   }
   
    .comment textarea {
@@ -23,3 +23,19 @@
     padding: 5px;
   }
 
+  .comment .alert-warning {
+    display: none;
+    background-color: yellow;
+  }
+  .comment .alert-danger {
+    display: none;
+    background-color: red;
+  }
+
+  .counter {
+    float: right;
+  }
+  
+  .errorCounter {
+    color: red;
+  }
