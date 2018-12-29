@@ -60,62 +60,211 @@ app.get("/login", (req, res) => {
 
 // Search request
 app.post("/search", (req, res) => {
+
   const searchText = req.body.search;
-  console.log(searchText)
-  knex.select('title','description','image','users.name','categories.category','email','password')
+
+  const urlsTable = knex.select('title','description','image','users.name','categories.category','email','password')
   .from('urls')
   .leftJoin('categories','urls.category_id', 'categories.id')
   .leftJoin('users','urls.user_id', 'users.id')
   .where('title', 'like', `%${searchText}%`)
   .orWhere('description', 'like', `%${searchText}%`)
-  .asCallback((err,event) => {
-    if (err) throw err; 
-     console.log(event);
-     res.render("index");
+  .then((event) => {
+     return event;
+  }).catch((err) => {
+    console.log(err);
+  });
+
+  const likesTable = knex.select('url_id')
+  .count('id')
+  .from('likes')
+  .groupBy('url_id')
+  .then( (event) => {
+    return event;
+  }).catch((err) => {
+    console.log(err);
+  });
+
+  const ratingsTable = knex.select('url_id')
+  .avg('rating')
+  .from('ratings')
+  .groupBy('url_id')
+  .then( (event) => {
+    return event;
+  }).catch((err) => {
+    console.log(err);
+  });
+
+  const commentsTable = knex.select('*')
+  .from('comments')
+  .then( (event) => {
+    return event;
+  }).catch((err) => {
+    console.log(err);
+  });
+
+  const everythingLoaded = Promise.all([likesTable, urlsTable,ratingsTable,commentsTable])
+  .then((record) => {
+    console.log('likesTable' , record[0]);
+    console.log('userstable' , record[1]);
+    console.log('ratingsTable', record[2]);
+    console.log('commentsTable', record[3]);
+
+    res.render("index");
   })
 });
 
 //engineering category
 app.get("/engineering", (req,res) => {
-  knex.select('title','description','image','users.name','categories.category','email','password')
+
+  const engTable = knex.select('title','description','image','users.name','categories.category','email','password')
   .from('urls')
   .leftJoin('categories','urls.category_id', 'categories.id')
   .leftJoin('users','urls.user_id', 'users.id')
   .where('category', 'like', 'Engineering')
-  .asCallback((err,event) => {
-    if (err) throw err;
-     console.log(event);
+  .then((event) => {
+    return event;
+  }).catch((err) => {
+    console.log(err);
+  });
+  const likesTable = knex.select('url_id')
+  .count('id')
+  .from('likes')
+  .groupBy('url_id')
+  .then( (event) => {
+    return event;
+  }).catch((err) => {
+    console.log(err);
+  });
 
-     res.render("engineering");
+  const ratingsTable = knex.select('url_id')
+  .avg('rating')
+  .from('ratings')
+  .groupBy('url_id')
+  .then( (event) => {
+    return event;
+  }).catch((err) => {
+    console.log(err);
+  });
+
+  const commentsTable = knex.select('*')
+  .from('comments')
+  .then( (event) => {
+    return event;
+  }).catch((err) => {
+    console.log(err);
+  });
+
+  const everythingLoaded = Promise.all([likesTable, engTable,ratingsTable,commentsTable])
+  .then((record) => {
+    console.log('likesTable' , record[0]);
+    console.log('engTable' , record[1]);
+    console.log('ratingsTable', record[2]);
+    console.log('commentsTable', record[3]);
+
+    res.render("engineering");
   })
+
 });
 
 //web development category
 app.get("/webDev", (req,res) => {
-  knex.select('title','description','image','users.name','categories.category','email','password')
+  const webTable = knex.select('title','description','image','users.name','categories.category','email','password')
   .from('urls')
   .leftJoin('categories','urls.category_id', 'categories.id')
   .leftJoin('users','urls.user_id', 'users.id')
   .where('category', 'like', 'Web Dev')
-  .asCallback((err,event) => {
-    if (err) throw err;
-     console.log(event);
-     res.render("webDev");
+  .then((event) => {
+    return event;
+  }).catch((err) => {
+    console.log(err);
+  });
+  const likesTable = knex.select('url_id')
+  .count('id')
+  .from('likes')
+  .groupBy('url_id')
+  .then( (event) => {
+    return event;
+  }).catch((err) => {
+    console.log(err);
+  });
+
+  const ratingsTable = knex.select('url_id')
+  .avg('rating')
+  .from('ratings')
+  .groupBy('url_id')
+  .then( (event) => {
+    return event;
+  }).catch((err) => {
+    console.log(err);
+  });
+
+  const commentsTable = knex.select('*')
+  .from('comments')
+  .then( (event) => {
+    return event;
+  }).catch((err) => {
+    console.log(err);
+  });
+
+  const everythingLoaded = Promise.all([likesTable, webTable,ratingsTable,commentsTable])
+  .then((record) => {
+    console.log('likesTable' , record[0]);
+    console.log('webTable' , record[1]);
+    console.log('ratingsTable', record[2]);
+    console.log('commentsTable', record[3]);
+    res.render("webDev");
   })
+  
 });
 
 //computer science category
 app.get("/cs", (req,res) => {
-  knex.select('title','description','image','users.name','categories.category','email','password')
+  const csTable = knex.select('title','description','image','users.name','categories.category','email','password')
   .from('urls')
   .leftJoin('categories','urls.category_id', 'categories.id')
   .leftJoin('users','urls.user_id', 'users.id')
   .where('category', 'like', 'CS')
-  .asCallback((err,event) => {
-    if (err) throw err;
-     console.log(event);
-     res.render("cs")
+  .then((event) => {
+    return event;
+  }).catch((err) => {
+    console.log(err);
+  });
+  const likesTable = knex.select('url_id')
+  .count('id')
+  .from('likes')
+  .groupBy('url_id')
+  .then( (event) => {
+    return event;
+  }).catch((err) => {
+    console.log(err);
+  });
 
+  const ratingsTable = knex.select('url_id')
+  .avg('rating')
+  .from('ratings')
+  .groupBy('url_id')
+  .then( (event) => {
+    return event;
+  }).catch((err) => {
+    console.log(err);
+  });
+
+  const commentsTable = knex.select('*')
+  .from('comments')
+  .then( (event) => {
+    return event;
+  }).catch((err) => {
+    console.log(err);
+  });
+
+  const everythingLoaded = Promise.all([likesTable, csTable,ratingsTable,commentsTable])
+  .then((record) => {
+    console.log('likesTable' , record[0]);
+    console.log('csTable' , record[1]);
+    console.log('ratingsTable', record[2]);
+    console.log('commentsTable', record[3]);
+    res.render("cs");
   })
 });
 
