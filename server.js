@@ -353,7 +353,7 @@ app.get("/cs", (req,res) => {
 // MyResource page
 app.get("/myresource", (req, res) => {
 
-  const user = 'Alice';
+  const user = 'Bob';
   const myReasourceTable = knex.select('urls.id','title','description','image','users.name','categories.category','email','password')
   .from('urls')
   .leftJoin('categories','urls.category_id', 'categories.id')
@@ -406,6 +406,4 @@ app.get("/myresource", (req, res) => {
     }
     res.render("myresource", templatevars);
   })
-
-
 })
