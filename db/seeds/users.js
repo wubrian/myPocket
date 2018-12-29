@@ -44,7 +44,12 @@ exports.seed = function(knex, Promise) {
     
 
     return Promise.all([
-      knex('comments').insert({url_id: 5000, user_id: 2000, text: "this was helpful"})
+      knex('comments').insert({url_id: 5000, user_id: 2000, text: "this was helpful"}),
+      knex('comments').insert({ url_id: 5000, user_id: 2001, text: "this was The SHIT" }),
+      knex('comments').insert({ url_id: 5000, user_id: 2002, text: "this was fucking shit" }),      
+      knex('comments').insert({ url_id: 5000, user_id: 2002, text: "this was shit" }),
+      knex('comments').insert({url_id: 5000, user_id: 2001, text: "this was helpful"}), 
+      knex('comments').insert({ url_id: 5000, user_id: 2000, text: "this wasn't helpful at all" })
     ])
     // return Promise.all([users, categories,urls,comments]);
   }).then(() => {
@@ -71,7 +76,11 @@ exports.seed = function(knex, Promise) {
   }).then(() => {
     //seeding rates
     const rates = Promise.all([
-        knex('ratings').insert({url_id: 5006, user_id: 2002, rating:5})
+        knex('ratings').insert({url_id: 5002, user_id: 2002, rating:5}),
+        knex('ratings').insert({ url_id: 5003, user_id: 2001, rating: 1 }),
+        knex('ratings').insert({ url_id: 5004, user_id: 2002, rating: 4 }),
+        knex('ratings').insert({ url_id: 5005, user_id: 2002, rating: 3 }),
+        knex('ratings').insert({ url_id: 5006, user_id: 2002, rating: 2 })
       ])
     return Promise.all([rates]);
   })
