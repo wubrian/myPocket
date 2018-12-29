@@ -46,9 +46,9 @@ app.listen(PORT, () => {
 });
 
 // Home page
-app.get("/", (req, res) => {
-  res.render("index");
-});
+// app.get("/", (req, res) => {
+//   res.render("index");
+// });
 
 app.get("/register", (req, res) => {
   res.render("register");
@@ -58,12 +58,71 @@ app.get("/login", (req, res) => {
   res.render("login");
 });
 
+//home request
+app.get("/", (req, res) => {
+
+  const searchText = req.body.search;
+
+  const urlsTable = knex.select('urls.id','title','description','image','users.name','categories.category','email','password')
+  .from('urls')
+  .leftJoin('categories','urls.category_id', 'categories.id')
+  .leftJoin('users','urls.user_id', 'users.id')
+  .then((event) => {
+     return event;
+  }).catch((err) => {
+    console.log(err);
+  });
+
+  const likesTable = knex.select('url_id')
+  .count('id')
+  .from('likes')
+  .groupBy('url_id')
+  .then( (event) => {
+    return event;
+  }).catch((err) => {
+    console.log(err);
+  });
+
+  const ratingsTable = knex.select('url_id')
+  .avg('rating')
+  .from('ratings')
+  .groupBy('url_id')
+  .then( (event) => {
+    return event;
+  }).catch((err) => {
+    console.log(err);
+  });
+
+  const commentsTable = knex.select('*')
+  .from('comments')
+  .then( (event) => {
+    return event;
+  }).catch((err) => {
+    console.log(err);
+  });
+
+  const everythingLoaded = Promise.all([likesTable, urlsTable,ratingsTable,commentsTable])
+  .then((record) => {
+    console.log('likesTable' , record[0]);
+    console.log('userstable' , record[1]);
+    console.log('ratingsTable', record[2]);
+    console.log('commentsTable', record[3])
+    let templatevars = {
+      likes: record[0],
+      urls: record[1],
+      rates: record[2],
+      comments: record[3]
+    }
+    res.render("index", templatevars);
+  })
+});
+
 // Search request
 app.post("/search", (req, res) => {
 
   const searchText = req.body.search;
 
-  const urlsTable = knex.select('title','description','image','users.name','categories.category','email','password')
+  const urlsTable = knex.select('urls.id','title','description','image','users.name','categories.category','email','password')
   .from('urls')
   .leftJoin('categories','urls.category_id', 'categories.id')
   .leftJoin('users','urls.user_id', 'users.id')
@@ -109,8 +168,14 @@ app.post("/search", (req, res) => {
     console.log('userstable' , record[1]);
     console.log('ratingsTable', record[2]);
     console.log('commentsTable', record[3]);
+    let templatevars = {
+      likes: record[0],
+      urls: record[1],
+      rates: record[2],
+      comments: record[3]
+    }
 
-    res.render("index");
+    res.render("index", templatevars);
   })
 });
 
