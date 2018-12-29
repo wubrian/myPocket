@@ -20,10 +20,11 @@
         <h1>My Resources Carousel</h1>
       
         <div class="row">
+          <% for(var url in urls) { %>
           <div class="row__inner">
             <div class="tile">
               <div class="tile__media">
-                <img class="tile__img" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/70390/show-1.jpg" alt=""  />
+                <img class="tile__img" src="<%= urls[url].image %>" alt=""  />
               </div>
               <div class="tile__details">
                 <div class="tile__title">
@@ -31,8 +32,8 @@
                 </div>
               </div>
             </div>
-      
-            <div class="tile">
+            <% } %>
+            <!-- <div class="tile">
               <div class="tile__media">
                 <img class="tile__img" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/70390/show-2.jpg" alt=""  />
               </div>
@@ -231,7 +232,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
       <div class="contain">
 
         <h1>Liked Resources Carousel</h1>      

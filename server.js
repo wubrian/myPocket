@@ -182,7 +182,7 @@ app.post("/search", (req, res) => {
 //engineering category
 app.get("/engineering", (req,res) => {
 
-  const engTable = knex.select('title','description','image','users.name','categories.category','email','password')
+  const engTable = knex.select('urls.id','title','description','image','users.name','categories.category','email','password')
   .from('urls')
   .leftJoin('categories','urls.category_id', 'categories.id')
   .leftJoin('users','urls.user_id', 'users.id')
@@ -226,15 +226,20 @@ app.get("/engineering", (req,res) => {
     console.log('engTable' , record[1]);
     console.log('ratingsTable', record[2]);
     console.log('commentsTable', record[3]);
-
-    res.render("engineering");
+    let templatevars = {
+      likes: record[0],
+      urls: record[1],
+      rates: record[2],
+      comments: record[3]
+    }
+    res.render("engineering", templatevars);
   })
 
 });
 
 //web development category
 app.get("/webDev", (req,res) => {
-  const webTable = knex.select('title','description','image','users.name','categories.category','email','password')
+  const webTable = knex.select('urls.id','title','description','image','users.name','categories.category','email','password')
   .from('urls')
   .leftJoin('categories','urls.category_id', 'categories.id')
   .leftJoin('users','urls.user_id', 'users.id')
@@ -278,14 +283,20 @@ app.get("/webDev", (req,res) => {
     console.log('webTable' , record[1]);
     console.log('ratingsTable', record[2]);
     console.log('commentsTable', record[3]);
-    res.render("webDev");
+    let templatevars = {
+      likes: record[0],
+      urls: record[1],
+      rates: record[2],
+      comments: record[3]
+    }
+    res.render("webDev", templatevars);
   })
   
 });
 
 //computer science category
 app.get("/cs", (req,res) => {
-  const csTable = knex.select('title','description','image','users.name','categories.category','email','password')
+  const csTable = knex.select('urls.id','title','description','image','users.name','categories.category','email','password')
   .from('urls')
   .leftJoin('categories','urls.category_id', 'categories.id')
   .leftJoin('users','urls.user_id', 'users.id')
@@ -329,11 +340,72 @@ app.get("/cs", (req,res) => {
     console.log('csTable' , record[1]);
     console.log('ratingsTable', record[2]);
     console.log('commentsTable', record[3]);
-    res.render("cs");
+    let templatevars = {
+      likes: record[0],
+      urls: record[1],
+      rates: record[2],
+      comments: record[3]
+    }
+    res.render("cs", templatevars);
   })
 });
 
 // MyResource page
 app.get("/myresource", (req, res) => {
-  res.render("myresource");
+
+  const user = 'Alice';
+  const myReasourceTable = knex.select('urls.id','title','description','image','users.name','categories.category','email','password')
+  .from('urls')
+  .leftJoin('categories','urls.category_id', 'categories.id')
+  .leftJoin('users','urls.user_id', 'users.id')
+  .where('name', 'like', `${user}`)
+  .then((event) => {
+    return event;
+  }).catch((err) => {
+    console.log(err);
+  });
+  const likesTable = knex.select('url_id')
+  .count('id')
+  .from('likes')
+  .groupBy('url_id')
+  .then( (event) => {
+    return event;
+  }).catch((err) => {
+    console.log(err);
+  });
+
+  const ratingsTable = knex.select('url_id')
+  .avg('rating')
+  .from('ratings')
+  .groupBy('url_id')
+  .then( (event) => {
+    return event;
+  }).catch((err) => {
+    console.log(err);
+  });
+
+  const commentsTable = knex.select('*')
+  .from('comments')
+  .then( (event) => {
+    return event;
+  }).catch((err) => {
+    console.log(err);
+  });
+
+  const everythingLoaded = Promise.all([likesTable, myReasourceTable,ratingsTable,commentsTable])
+  .then((record) => {
+    console.log('likesTable' , record[0]);
+    console.log('myReasourceTable' , record[1]);
+    console.log('ratingsTable', record[2]);
+    console.log('commentsTable', record[3]);
+    let templatevars = {
+      likes: record[0],
+      urls: record[1],
+      rates: record[2],
+      comments: record[3]
+    }
+    res.render("myresource", templatevars);
+  })
+
+
 })
