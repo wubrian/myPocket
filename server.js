@@ -13,9 +13,13 @@ const knexConfig  = require("./knexfile");
 const knex        = require("knex")(knexConfig[ENV]);
 const morgan      = require('morgan');
 const knexLogger  = require('knex-logger');
+const cookieSession = require('cookie-session');
+const cookieParser = require('cookie-parser');
 
 // Seperated Routes for each Resource
 const usersRoutes = require("./routes/users");
+
+app.use(cookieParser());
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
@@ -27,6 +31,12 @@ app.use(knexLogger(knex));
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(cookieSession({
+  name: 'session',
+  keys: ['key1', 'key2', 'key3'],
+  maxAge: 24 * 60 * 60 * 1000 //24 hour expiry..
+}));
 
 
 app.use("/styles", sass({
@@ -49,9 +59,58 @@ app.get("/register", (req, res) => {
   res.render("register");
 });
 
+
+// Helped by DavidLacho L-labs here with the promises and
+// issuing callbacks this certain way. 
+function findUser(inputEmail, callback){
+  knex.select('email')
+  .from('users')
+  .where('email', inputEmail)
+  .then((resp) => {
+    callback(null, resp);
+  })
+  .catch((err)=> {
+    console.log('happening here');
+    callback(err);
+  });
+}
+
+app.post('/register', (req, res) => {
+  let email = req.body.email;
+  if (req.body.email === '' || req.body.password === '' || req.body.name === '') {
+    res.send("Forms can't be left empty");
+  } else {
+    findUser(req.body.email, (err, goodUser) => {
+      console.log("hjhh: ", goodUser);
+      if (err) {
+        res.send('there was an error', err);
+      }
+      if (goodUser.length >= 1) {
+        res.status(403).send("Another user is already registered with this email ID");
+      } else {
+        knex('users')
+          .insert({
+            name: req.body.name,
+            email: req.body.email,
+            password: req.body.password
+          })
+          .asCallback((err) => {
+            if (err) {
+              console.log(err);
+            }
+            req.session.userCookie = email;
+            res.redirect('/');
+          })
+      }
+    });
+  }
+});
+
 app.get("/login", (req, res) => {
   res.render("login");
 });
+
+
 
 //home request
 app.get("/", (req, res) => {
@@ -118,6 +177,11 @@ app.post("/search", (req, res) => {
   const searchText = req.body.search;
 
   const urlsTable = knex.select('urls.id','title','description','image','users.name','categories.category','email','password')
+// Search request
+app.post("/search", (req, res) => {
+  const searchText = req.body.search;
+  console.log(searchText)
+  knex.select('title','description','image','users.name','categories.category','email','password')
   .from('urls')
   .leftJoin('categories','urls.category_id', 'categories.id')
   .leftJoin('users','urls.user_id', 'users.id')
@@ -235,6 +299,7 @@ app.get("/engineering", (req,res) => {
 //web development category
 app.get("/webDev", (req,res) => {
   const webTable = knex.select('urls.id','title','description','image','users.name','categories.category','email','password')
+  knex.select('title','description','image','users.name','categories.category','email','password')
   .from('urls')
   .leftJoin('categories','urls.category_id', 'categories.id')
   .leftJoin('users','urls.user_id', 'users.id')
@@ -286,7 +351,6 @@ app.get("/webDev", (req,res) => {
     }
     res.render("webDev", templatevars);
   })
-  
 });
 
 //computer science category
