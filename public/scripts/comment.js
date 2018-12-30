@@ -23,15 +23,17 @@ $(document).ready(function() {
         counter.removeClass(errorClass);
       }
     });
-
+  
     //post a new tweet
-    function postTweet() {
-      var $send = $('#submit-comment');
-      $send.submit(function (event) {
+      $('#submit-comment').submit(function (event) {
+        console.log($(event.target));
+        const value = document.getElementById('submit-comment');
+        const urlValue = value.getAttribute("data-url");
+        // console.log(urlValue)
         event.preventDefault();
-        var data = $(this).serialize();
+        var inputText = $(this).serialize().slice(5);
+        // console.log(typeof inputText);
         var content = $('#cmtcontent').val();
-        console.log(content.length);
         if(content.length === 0) {
           $(".alert-danger").slideUp();
           $(".alert-warning").slideDown();
@@ -43,7 +45,11 @@ $(document).ready(function() {
           $(".alert-warning").slideUp();
           $.ajax('/comment', {
             type: 'POST',
-            data: data
+            data: {
+              inputText: inputText,
+              attribute: urlValue
+            },
+            dataType: "json"
           })
           .then(function () {
             $("#submit-comment").get(0).reset();
@@ -51,6 +57,6 @@ $(document).ready(function() {
           });
         }
       });
-    };
-    postTweet();
+    
+   
   });

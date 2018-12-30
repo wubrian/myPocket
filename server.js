@@ -45,10 +45,7 @@ app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
 });
 
-// Home page
-// app.get("/", (req, res) => {
-//   res.render("index");
-// });
+
 
 app.get("/register", (req, res) => {
   res.render("register");
@@ -60,9 +57,6 @@ app.get("/login", (req, res) => {
 
 //home request
 app.get("/", (req, res) => {
-
-  const searchText = req.body.search;
-
   const urlsTable = knex.select('urls.id','title','description','image','users.name','categories.category','email','password')
   .from('urls')
   .leftJoin('categories','urls.category_id', 'categories.id')
@@ -103,10 +97,10 @@ app.get("/", (req, res) => {
 
   const everythingLoaded = Promise.all([likesTable, urlsTable,ratingsTable,commentsTable])
   .then((record) => {
-    console.log('likesTable' , record[0]);
-    console.log('userstable' , record[1]);
-    console.log('ratingsTable', record[2]);
-    console.log('commentsTable', record[3])
+    // console.log('likesTable' , record[0]);
+    // console.log('userstable' , record[1]);
+    // console.log('ratingsTable', record[2]);
+    // console.log('commentsTable', record[3])
     let templatevars = {
       likes: record[0],
       urls: record[1],
@@ -115,6 +109,63 @@ app.get("/", (req, res) => {
     }
     res.render("index", templatevars);
   })
+});
+
+//create comment
+app.post("/comment", (req, res) => {
+  console.log(req.body);
+  // const comment = req.body.text;
+  // const url = req.body.data;
+  // const user = req.cookies["userCookie"];
+  // const urlID = document.getElementById('submit-comment');
+  // console.log(urlID)
+  // // console.log(req)
+  // knex('comments').insert({
+  //   url_id: url,
+  //   user_id: user,
+  //   text: comment,
+
+  // }).then(() =>{
+  //   res.redirect('/');
+  // })
+  // .catch((err) => {
+  //   console.log(err);
+  // });    
+  res.redirect('/');
+});
+
+//create likes
+app.post("/likes", (req, res) => {
+  // const url = ;
+  // const user = req.cookies["userCookie"];
+  // knex('comments').insert({
+  //   url_id: url,
+  //   user_id: user,
+
+  // }).then(() =>{
+  //   res.redirect('/');
+  // })
+  // .catch((err) => {
+  //   console.log(err);
+  // });    
+});
+
+//create rating
+app.post("/rating", (req, res) => {
+  // const rating = req.body.rating;
+  // const url = ;
+  // const user = req.cookies["userCookie"];
+  // knex('comments').insert({
+  //   url_id: url,
+  //   user_id: user,
+  //   text: comment,
+
+  // }).then(() =>{
+  //   res.redirect('/');
+  // })
+  // .catch((err) => {
+  //   console.log(err);
+  // });    
 });
 
 // Search request
