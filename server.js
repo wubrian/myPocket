@@ -45,11 +45,6 @@ app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
 });
 
-// Home page
-// app.get("/", (req, res) => {
-//   res.render("index");
-// });
-
 app.get("/register", (req, res) => {
   res.render("register");
 });
@@ -405,5 +400,10 @@ app.get("/myresource", (req, res) => {
       comments: record[3]
     }
     res.render("myresource", templatevars);
-  })
+  });
+
+  // Post New Comment
+  app.post('/comment', (req, res) => {
+    
+  });
 })
