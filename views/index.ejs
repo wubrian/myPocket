@@ -33,9 +33,7 @@
                       <figcaption>
                           <h2>Name: <span><%= urls[url].name %></span></h2>
                           <a href="<%= urls[url].title %>">weblink</a>
-                          <!-- <p><%= urls[url].title %></p> -->
                           <div class="icons">
-
                               <button  class="commentbtn" type="button"><i class="fas fa-edit"></i>Comment</button>
                               <button  class="button" type="button"><i class="fas fa-thumbs-up"></i>Like
                                 <% for(var like in likes) { %>
@@ -54,7 +52,7 @@
                           </div>
                       </figcaption>
                   </figure>
-                  <section class="comment">
+                  <section class="comment" id="cmt-$i">
                       <div>
                             <% for(var comment in comments) { %>
                                 <%if(comments[comment].url_id === urls[url].id){%>
