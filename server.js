@@ -64,39 +64,48 @@ app.get("/register", (req, res) => {
   res.render("register");
 });
 
-function findUser(inputEmail){
-  knex.select('email', 'name')
+function findUser(inputEmail, callback){
+  knex.select('email')
   .from('users')
   .where('email', inputEmail)
-  .asCallback((err, result) => {
-    if(err) {console.log(err)};
-    console.log(result[0]);
-    return result[0];
+  .then((resp) => {
+    callback(null, resp);
+  })
+  .catch((err)=> {
+    console.log('happening here');
+    callback(err);
   });
 }
 
 app.post('/register', (req, res) => {
   let email = req.body.email;
-  if(findUser(req.body.email)){
-    res.status(403).send("Another user is already registered with this email ID");  
-  } else if (req.body.email === '' || req.body.password === '' || req.body.name === '') {
+  if (req.body.email === '' || req.body.password === '' || req.body.name === '') {
     res.send("Forms can't be left empty");
   } else {
-      knex('users')
-      .insert({
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password
-      })
-      .asCallback((err) => {
-        if(err) {
-          console.log(err);
-        }
-        req.session.userCookie = email;
-        res.redirect('/');
-      })
-  } 
-
+    findUser(req.body.email, (err, goodUser) => {
+      console.log("hjhh: ", goodUser);
+      if (err) {
+        res.send('there was an error', err);
+      }
+      if (goodUser.length >= 1) {
+        res.status(403).send("Another user is already registered with this email ID");
+      } else {
+        knex('users')
+          .insert({
+            name: req.body.name,
+            email: req.body.email,
+            password: req.body.password
+          })
+          .asCallback((err) => {
+            if (err) {
+              console.log(err);
+            }
+            req.session.userCookie = email;
+            res.redirect('/');
+          })
+      }
+    });
+  }
 });
 
 app.get("/login", (req, res) => {
