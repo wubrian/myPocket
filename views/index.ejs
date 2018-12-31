@@ -62,7 +62,7 @@
                                 <% } %>
                             <% } %>
                       </div>
-                    <form id="submit-comment" action="/comment" method="POST">
+                    <form id="submit-comment" action="/comment" method="POST" data-url="<%= urls[url].title %>">
                       <textarea name="text" placeholder="What would you like to comment?" id="cmtcontent"></textarea>
                       <input type="submit" value="send">
                       <span class="counter">150</span>
