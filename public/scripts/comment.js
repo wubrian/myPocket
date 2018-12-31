@@ -1,5 +1,6 @@
 $(document).ready(function() {  
     //clicking on the button
+   
     
       $(".commentbtn").on('click', function(event) {
         $(event.target).parent().parent().parent().parent().find('section.comment').toggle("slow");
@@ -59,4 +60,6 @@ $(document).ready(function() {
       });
     
    
+
+
   });
