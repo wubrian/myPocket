@@ -45,6 +45,7 @@ app.use("/styles", sass({
   debug: true,
   outputStyle: 'expanded'
 }));
+
 app.use(express.static("public"));
 
 // Mount all resource routes
@@ -63,7 +64,7 @@ app.get("/register", (req, res) => {
 // Helped by DavidLacho L-labs here with the promises and
 // issuing callbacks this certain way. 
 function findUser(inputEmail, callback){
-  knex.select('email')
+  knex.select('email', 'password')
   .from('users')
   .where('email', inputEmail)
   .then((resp) => {
@@ -107,9 +108,37 @@ app.post('/register', (req, res) => {
 });
 
 app.get("/login", (req, res) => {
+  // let templateVars = {
+  //   cookie: req.session.userCookie
+  // }
   res.render("login");
 });
 
+app.post('/login', (req, res) => {
+  let email = req.body.email;
+  let password = req.body.password;
+  if (email === '' || password === '') {
+    res.send("Forms can't be left empty");
+  } else {
+      findUser(req.body.email, (err, goodUser) => {
+        console.log("booooo: ", goodUser[0]);
+        if (err) {
+          res.send("There was a bloody error.", err);
+        }
+        //Check if goodUser obj has more than 0 elements
+        if (goodUser.length >= 1) {
+          //if it does, check the password
+          if(goodUser[0].password === req.body.password) {
+            req.session.userCookie = email;
+            res.redirect('/');
+          } else {
+            res.status(403).send("Sorry, wrong credentials. Please check again");
+          }
+          
+        }
+      })
+    }
+});
 
 
 //home request
@@ -157,10 +186,10 @@ app.get("/", (req, res) => {
 
   const everythingLoaded = Promise.all([likesTable, urlsTable,ratingsTable,commentsTable])
   .then((record) => {
-    console.log('likesTable' , record[0]);
-    console.log('userstable' , record[1]);
-    console.log('ratingsTable', record[2]);
-    console.log('commentsTable', record[3])
+    // console.log('likesTable' , record[0]);
+    // console.log('userstable' , record[1]);
+    // console.log('ratingsTable', record[2]);
+    // console.log('commentsTable', record[3])
     let templatevars = {
       likes: record[0],
       urls: record[1],
@@ -223,10 +252,10 @@ app.post("/search", (req, res) => {
 
   const everythingLoaded = Promise.all([likesTable, urlsTable,ratingsTable,commentsTable])
   .then((record) => {
-    console.log('likesTable' , record[0]);
-    console.log('userstable' , record[1]);
-    console.log('ratingsTable', record[2]);
-    console.log('commentsTable', record[3]);
+    // console.log('likesTable' , record[0]);
+    // console.log('userstable' , record[1]);
+    // console.log('ratingsTable', record[2]);
+    // console.log('commentsTable', record[3]);
     let templatevars = {
       likes: record[0],
       urls: record[1],
@@ -281,10 +310,10 @@ app.get("/engineering", (req,res) => {
 
   const everythingLoaded = Promise.all([likesTable, engTable,ratingsTable,commentsTable])
   .then((record) => {
-    console.log('likesTable' , record[0]);
-    console.log('engTable' , record[1]);
-    console.log('ratingsTable', record[2]);
-    console.log('commentsTable', record[3]);
+    // console.log('likesTable' , record[0]);
+    // console.log('engTable' , record[1]);
+    // console.log('ratingsTable', record[2]);
+    // console.log('commentsTable', record[3]);
     let templatevars = {
       likes: record[0],
       urls: record[1],
@@ -339,10 +368,10 @@ app.get("/webDev", (req,res) => {
 
   const everythingLoaded = Promise.all([likesTable, webTable,ratingsTable,commentsTable])
   .then((record) => {
-    console.log('likesTable' , record[0]);
-    console.log('webTable' , record[1]);
-    console.log('ratingsTable', record[2]);
-    console.log('commentsTable', record[3]);
+    // console.log('likesTable' , record[0]);
+    // console.log('webTable' , record[1]);
+    // console.log('ratingsTable', record[2]);
+    // console.log('commentsTable', record[3]);
     let templatevars = {
       likes: record[0],
       urls: record[1],
@@ -395,10 +424,10 @@ app.get("/cs", (req,res) => {
 
   const everythingLoaded = Promise.all([likesTable, csTable,ratingsTable,commentsTable])
   .then((record) => {
-    console.log('likesTable' , record[0]);
-    console.log('csTable' , record[1]);
-    console.log('ratingsTable', record[2]);
-    console.log('commentsTable', record[3]);
+    // console.log('likesTable' , record[0]);
+    // console.log('csTable' , record[1]);
+    // console.log('ratingsTable', record[2]);
+    // console.log('commentsTable', record[3]);
     let templatevars = {
       likes: record[0],
       urls: record[1],
@@ -453,10 +482,10 @@ app.get("/myresource", (req, res) => {
 
   const everythingLoaded = Promise.all([likesTable, myReasourceTable,ratingsTable,commentsTable])
   .then((record) => {
-    console.log('likesTable' , record[0]);
-    console.log('myReasourceTable' , record[1]);
-    console.log('ratingsTable', record[2]);
-    console.log('commentsTable', record[3]);
+    // console.log('likesTable' , record[0]);
+    // console.log('myReasourceTable' , record[1]);
+    // console.log('ratingsTable', record[2]);
+    // console.log('commentsTable', record[3]);
     let templatevars = {
       likes: record[0],
       urls: record[1],
@@ -470,4 +499,6 @@ app.get("/myresource", (req, res) => {
   app.post('/comment', (req, res) => {
     
   });
+});
+
 })
