@@ -213,26 +213,47 @@ app.get("/", (req, res) => {
 
 //create comment
 app.post("/comment", (req, res) => {
-  console.log(req.body);
-  // const comment = req.body.text;
-  // const url = req.body.data;
-  // const user = req.cookies["userCookie"];
-  // const urlID = document.getElementById('submit-comment');
-  // console.log(urlID)
-  // // console.log(req)
-  // knex('comments').insert({
-  //   url_id: url,
-  //   user_id: user,
-  //   text: comment,
+  const comment = req.body.inputText;
+  const url = req.body.attribute;
+  const user = req.session.userCookie;
+  console.log(user)
+  const urlID = knex.select('id')
+  .from('urls')
+  .where('title', 'like', `${url}`)
+  .then((res) => {
+    return res;
+  }).catch((err) => {
+    console.log(err);
+  });
 
-  // }).then(() =>{
-  //   res.redirect('/');
-  // })
-  // .catch((err) => {
-  //   console.log(err);
-  // });    
-  res.redirect('/');
-});
+  const userID = knex.select('id')
+  .from('users')
+  .where('email', 'like', `${user}`)
+  .then( (res) => {
+    return res;
+  }).catch((err) => {
+    console.log(err);
+  });
+
+  const everythingLoaded = Promise.all([urlID, userID])
+  .then((record) => {
+    console.log('urlID' , record[0][0].id);
+    const urlID = record[0][0].id;
+    console.log('user ID' , record[1][0].id);
+    const userID = record[1][0].id;
+      knex('comments').insert({
+        url_id: urlID,
+        user_id: userID,
+        text: comment,
+    }).then(() =>{
+      res.redirect('/');
+    })
+    .catch((err) => {
+      console.log(err);
+    });  
+    })
+  })
+ 
 
 //create likes
 app.post("/likes", (req, res) => {
@@ -392,7 +413,6 @@ app.get("/engineering", (req,res) => {
 //web development category
 app.get("/webDev", (req,res) => {
   const webTable = knex.select('urls.id','title','description','image','users.name','categories.category','email','password')
-  knex.select('title','description','image','users.name','categories.category','email','password')
   .from('urls')
   .leftJoin('categories','urls.category_id', 'categories.id')
   .leftJoin('users','urls.user_id', 'users.id')
@@ -507,12 +527,12 @@ app.get("/cs", (req,res) => {
 // MyResource page
 app.get("/myresource", (req, res) => {
 
-  const user = 'Bob';
+  const email = req.session.userCookie;
   const myReasourceTable = knex.select('urls.id','title','description','image','users.name','categories.category','email','password')
   .from('urls')
   .leftJoin('categories','urls.category_id', 'categories.id')
   .leftJoin('users','urls.user_id', 'users.id')
-  .where('name', 'like', `${user}`)
+  .where('email', 'like', `${email}`)
   .then((event) => {
     return event;
   }).catch((err) => {

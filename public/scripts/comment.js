@@ -26,15 +26,12 @@ $(document).ready(function() {
     });
   
     //post a new tweet
-      $('#submit-comment').submit(function (event) {
-        console.log($(event.target));
-        const value = document.getElementById('submit-comment');
-        const urlValue = value.getAttribute("data-url");
-        // console.log(urlValue)
+      $('.submit-comment').submit(function (event) {
+        const urlValue = $(event.target).data().url;
+        
         event.preventDefault();
         var inputText = $(this).serialize().slice(5);
-        // console.log(typeof inputText);
-        var content = $('#cmtcontent').val();
+        var content = $(event.target).children().val();
         if(content.length === 0) {
           $(".alert-danger").slideUp();
           $(".alert-warning").slideDown();
@@ -53,7 +50,8 @@ $(document).ready(function() {
             dataType: "json"
           })
           .then(function () {
-            $("#submit-comment").get(0).reset();
+            console.log(this);
+            this.get(0).reset();
             $(".counter").text("150");
           });
         }
