@@ -57,7 +57,10 @@ app.listen(PORT, () => {
 });
 
 app.get("/register", (req, res) => {
-  res.render("register");
+  let templateVars = {
+    cookie: req.session.userCookie
+  }
+  res.render("register", templateVars);
 });
 
 
@@ -108,10 +111,10 @@ app.post('/register', (req, res) => {
 });
 
 app.get("/login", (req, res) => {
-  // let templateVars = {
-  //   cookie: req.session.userCookie
-  // }
-  res.render("login");
+  let templateVars = {
+    cookie: req.session.userCookie
+  }
+  res.render("login", templateVars);
 });
 
 app.post('/login', (req, res) => {
@@ -140,6 +143,16 @@ app.post('/login', (req, res) => {
     }
 });
 
+app.get('/logout', (req, res) => {
+  //clear the cookies
+  res.clearCookie('session');
+  res.clearCookie('session.sig');
+
+  //destroy the session
+  res.session = null;
+
+  res.redirect('/');
+})
 
 //home request
 app.get("/", (req, res) => {
@@ -194,18 +207,13 @@ app.get("/", (req, res) => {
       likes: record[0],
       urls: record[1],
       rates: record[2],
-      comments: record[3]
+      comments: record[3],
+      cookie: req.session.userCookie
     }
     res.render("index", templatevars);
   })
 });
 
-// Search request
-app.post("/search", (req, res) => {
-
-  const searchText = req.body.search;
-
-  const urlsTable = knex.select('urls.id','title','description','image','users.name','categories.category','email','password')
 // Search request
 app.post("/search", (req, res) => {
   const searchText = req.body.search;
@@ -260,7 +268,8 @@ app.post("/search", (req, res) => {
       likes: record[0],
       urls: record[1],
       rates: record[2],
-      comments: record[3]
+      comments: record[3],
+      cookie: req.session.userCookie
     }
 
     res.render("index", templatevars);
@@ -318,7 +327,8 @@ app.get("/engineering", (req,res) => {
       likes: record[0],
       urls: record[1],
       rates: record[2],
-      comments: record[3]
+      comments: record[3],
+      cookie: req.session.userCookie
     }
     res.render("engineering", templatevars);
   })
@@ -376,7 +386,8 @@ app.get("/webDev", (req,res) => {
       likes: record[0],
       urls: record[1],
       rates: record[2],
-      comments: record[3]
+      comments: record[3],
+      cookie: req.session.userCookie
     }
     res.render("webDev", templatevars);
   })
@@ -432,7 +443,8 @@ app.get("/cs", (req,res) => {
       likes: record[0],
       urls: record[1],
       rates: record[2],
-      comments: record[3]
+      comments: record[3],
+      cookie: req.session.userCookie
     }
     res.render("cs", templatevars);
   })
@@ -490,7 +502,8 @@ app.get("/myresource", (req, res) => {
       likes: record[0],
       urls: record[1],
       rates: record[2],
-      comments: record[3]
+      comments: record[3],
+      cookie: req.session.userCookie
     }
     res.render("myresource", templatevars);
   });
@@ -501,4 +514,3 @@ app.get("/myresource", (req, res) => {
   });
 });
 
-})
