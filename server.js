@@ -216,12 +216,12 @@ app.post("/comment", (req, res) => {
   const comment = req.body.inputText;
   const url = req.body.attribute;
   const user = req.session.userCookie;
-  console.log(user)
+  if(user){
   const urlID = knex.select('id')
   .from('urls')
   .where('title', 'like', `${url}`)
-  .then((res) => {
-    return res;
+  .then((event) => {
+    return event;
   }).catch((err) => {
     console.log(err);
   });
@@ -229,8 +229,8 @@ app.post("/comment", (req, res) => {
   const userID = knex.select('id')
   .from('users')
   .where('email', 'like', `${user}`)
-  .then( (res) => {
-    return res;
+  .then( (event) => {
+    return event;
   }).catch((err) => {
     console.log(err);
   });
@@ -252,23 +252,61 @@ app.post("/comment", (req, res) => {
       console.log(err);
     });  
     })
+  }
+  else{
+    res.send('Please log in to comment');
+  }
   })
  
 
 //create likes
 app.post("/likes", (req, res) => {
-  // const url = ;
-  // const user = req.cookies["userCookie"];
-  // knex('comments').insert({
-  //   url_id: url,
-  //   user_id: user,
+  // const url = req.body.attribute;
+  // const user = req.session.userCookie;
+  // console.log(url)
+  // if(user){
+ 
 
-  // }).then(() =>{
-  //   res.redirect('/');
-  // })
-  // .catch((err) => {
+  // const urlID = knex.select('id')
+  // .from('urls')
+  // .where('title', 'like', `${url}`)
+  // .then((res) => {
+  //   return res;
+  // }).catch((err) => {
   //   console.log(err);
-  // });    
+  // });
+
+  // const userID = knex.select('id')
+  // .from('users')
+  // .where('email', 'like', `${user}`)
+  // .then( (res) => {
+  //   return res;
+  // }).catch((err) => {
+  //   console.log(err);
+  // });
+
+  // const everythingLoaded = Promise.all([urlID, userID])
+  // .then((record) => {
+  //   console.log('urlID' , record[0][0].id);
+  //   const urlID = record[0][0].id;
+  //   console.log('user ID' , record[1][0].id);
+  //   const userID = record[1][0].id;
+  //     knex('likes').where({
+  //       url_id: `${urlID}`,
+  //       user_id: `${userID}`,
+  //   }).then((event) =>{
+  //     // res.redirect('/');
+  //     console.log(event)
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //   });  
+  //   })
+  //  }
+  // else{
+  //   res.send('Please log in to like');
+  // }
+     
 });
 
 //create rating
@@ -582,9 +620,5 @@ app.get("/myresource", (req, res) => {
     res.render("myresource", templatevars);
   });
 
-  // Post New Comment
-  app.post('/comment', (req, res) => {
-    
-  });
 });
 

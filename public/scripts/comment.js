@@ -28,7 +28,6 @@ $(document).ready(function() {
     //post a new tweet
       $('.submit-comment').submit(function (event) {
         const urlValue = $(event.target).data().url;
-        
         event.preventDefault();
         var inputText = $(this).serialize().slice(5);
         var content = $(event.target).children().val();
@@ -49,10 +48,10 @@ $(document).ready(function() {
             },
             dataType: "json"
           })
-          .then(function () {
-            console.log(this);
-            this.get(0).reset();
+          .then(function (event) {
+            $("#submit-comment").get(0).reset();
             $(".counter").text("150");
+            $.ajax('/', { method: 'GET' })
           });
         }
       });

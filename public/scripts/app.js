@@ -10,9 +10,29 @@ $(document).ready(function() {
    //    }
    //  });;
 
-    // $(".search").on("click", function() {
-    //   event.preventDefault();
-    // });
+     //add a new like
+     $('.likes').on('click', function (event) {
+      const urlValue = $(event.target).data().url;
+      event.preventDefault();
+      console.log($(event.target).data())
+      // var inputText = $(this).serialize().slice(5);
+      // var content = $(event.target).children().val();
+        
+        $.ajax('/likes', {
+          type: 'POST',
+          data: {
+            attribute: urlValue
+          },
+          dataType: "json"
+        })
+        .done(function (event) {
+          alert(hello)
+          console.log($(event.target))
+          $("#submit-comment").get(0).reset();
+          $(".counter").text("150");
+        });
+      
+    });
 
     function createTile(tileData){
       let $tile = $('<main>').addClass('container');
