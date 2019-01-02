@@ -36,7 +36,7 @@
                           <a href="<%= urls[url].title %>">weblink</a>
                           <div class="icons">
                               <button  class="commentbtn" type="button"><i class="fas fa-edit"></i>Comment</button>
-                              <button  class="button" type="button"><i class="fas fa-thumbs-up"></i>Like
+                              <button  class="button likes" type="button" data-url="<%= urls[url].title %>"><i class="fas fa-thumbs-up"></i>Like
                                 <% for(var like in likes) { %>
                                     <%if(likes[like].url_id === urls[url].id){%>
                                         <%= likes[like].count%>
@@ -61,8 +61,8 @@
                                 <% } %>
                             <% } %>
                       </div>
-                    <form id="submit-comment" action="/comment" method="POST" data-url="<%= urls[url].title %>">
-                      <textarea name="text" placeholder="What would you like to comment?" id="cmtcontent"></textarea>
+                    <form class="submit-comment" action="/comment" method="POST" data-url="<%= urls[url].title %>">
+                      <textarea name="text" placeholder="What would you like to comment?" class="cmtcontent"></textarea>
                       <input type="submit" value="send">
                       <span class="counter">150</span>
                       <div class="alert-warning">
