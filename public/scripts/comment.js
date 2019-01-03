@@ -28,18 +28,24 @@ $(document).ready(function() {
     //post a new tweet
       $('.submit-comment').submit(function (event) {
         const urlValue = $(event.target).data().url;
-        event.preventDefault();
+        // event.preventDefault();
         var inputText = $(this).serialize().slice(5);
         var content = $(event.target).children().val();
         if(content.length === 0) {
-          $(".alert-danger").slideUp();
-          $(".alert-warning").slideDown();
-        } else if(content.length > 140){
-          $(".alert-warning").slideUp();
-          $(".alert-danger").slideDown();
+          $(event.target).children(".alert-danger").slideUp();
+          $(event.target).children(".alert-warning").slideDown();
+          // $(".alert-danger").slideUp();
+          // $(".alert-warning").slideDown();
+        } else if(content.length > 150){
+          $(event.target).children(".alert-danger").slideDown();
+          $(event.target).children(".alert-warning").slideUp();
+          // $(".alert-warning").slideUp();
+          // $(".alert-danger").slideDown();
         } else {
-          $(".alert-danger").slideUp();
-          $(".alert-warning").slideUp();
+          $(event.target).children(".alert-warning").slideUp();
+          $(event.target).children(".alert-danger").slideUp();
+          // $(".alert-danger").slideUp();
+          // $(".alert-warning").slideUp();
           $.ajax('/comment', {
             type: 'POST',
             data: {
@@ -55,8 +61,5 @@ $(document).ready(function() {
           });
         }
       });
-    
-   
-
 
   });
