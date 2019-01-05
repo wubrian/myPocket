@@ -35,11 +35,12 @@ $(document).ready(function() {
           $(".alert-danger").slideUp();
           $(".alert-warning").slideDown();
         } else if(content.length > 140){
-          $(".alert-warning").slideUp();
-          $(".alert-danger").slideDown();
+          $(event.target).children(".alert-danger").slideDown();
+          $(event.target).children(".alert-warning").slideUp();
         } else {
-          $(".alert-danger").slideUp();
-          $(".alert-warning").slideUp();
+          $(event.target).children(".alert-warning").slideUp();
+          $(event.target).children(".alert-danger").slideUp();
+          
           const createComment = $.ajax('/comment', {
             type: 'POST',
             data: {
@@ -48,8 +49,8 @@ $(document).ready(function() {
             },
             dataType: "json"
           })
-          createComment.then(function (event) {
-            alert('hello')
+          .then(function (event) {
+            console.log('hello')
             $(event.target).get(0).reset();
             $(".counter").text("150");
             $.ajax('/', { method: 'GET' })

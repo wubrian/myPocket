@@ -17,11 +17,11 @@
     <% include partials/_header %>
     <div class="contain">
 
-        <h1>My Resources Carousel</h1>
+      <h1>My Resources Carousel</h1>
       
         <div class="row">
           <div class="row__inner">
-              <% for(var url in urls) { %>
+          <% for(var url in urls) { %>
             <div class="tile">
               <div class="tile__media">
                 <img class="tile__img" src="<%= urls[url].image %>" alt=""  />
@@ -31,14 +31,17 @@
                   MyPocket
                 </div>
               </div>
-            </div>
-            <% } %>
-      <div class="contain">
+          <% } %>
+          </div>
+        </div>
+      </div>
 
-        <h1>Liked Resources Carousel</h1> 
-        <% for(var url in urls) { %>
-          <% for(var like in likes) { %>
-            <%if(likes[like].url_id === urls[url].id){%>
+      <div class="contain">
+          <h1>Liked Resources Carousel</h1> 
+
+            <% for(var url in urls) { %>
+              <% for(var like in likes) { %>
+                <%if(likes[like].url_id === urls[url].id){%>
               <div class="tile">
                   <div class="tile__media">
                     <img class="tile__img" src="<%= urls[url].image %>" alt=""  />

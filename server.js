@@ -217,23 +217,23 @@ app.post("/comment", (req, res) => {
   const url = req.body.attribute;
   const user = req.session.userCookie;
   if(user){
-  const urlID = knex.select('id')
-  .from('urls')
-  .where('title', 'like', `${url}`)
-  .then((event) => {
-    return event;
-  }).catch((err) => {
-    console.log(err);
-  });
+    const urlID = knex.select('id')
+    .from('urls')
+    .where('title', 'like', `${url}`)
+    .then((event) => {
+      return event;
+    }).catch((err) => {
+      console.log(err);
+    });
 
-  const userID = knex.select('id')
-  .from('users')
-  .where('email', 'like', `${user}`)
-  .then( (event) => {
-    return event;
-  }).catch((err) => {
-    console.log(err);
-  });
+    const userID = knex.select('id')
+    .from('users')
+    .where('email', 'like', `${user}`)
+    .then( (event) => {
+      return event;
+    }).catch((err) => {
+      console.log(err);
+    });
 
   const everythingLoaded = Promise.all([urlID, userID])
   .then((record) => {
