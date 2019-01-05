@@ -211,6 +211,7 @@ app.get("/", (req, res) => {
   })
 });
 
+
 //create comment
 app.post("/comment", (req, res) => {
   const comment = req.body.inputText;
@@ -245,6 +246,8 @@ app.post("/comment", (req, res) => {
         url_id: urlID,
         user_id: userID,
         text: comment,
+    }).then(() => {
+      res.sendStatus(200);
     })
     .catch((err) => {
       console.log(err);

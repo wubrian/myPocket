@@ -32,33 +32,25 @@ $(document).ready(function() {
         var inputText = $(this).serialize().slice(5);
         var content = $(event.target).children().val();
         if(content.length === 0) {
-          $(".alert-danger").slideUp();
-          $(".alert-warning").slideDown();
-        } else if(content.length > 140){
+          $(event.target).children(".alert-danger").slideUp();
+          $(event.target).children(".alert-warning").slideDown();
+        } else if(content.length > 150){
           $(event.target).children(".alert-danger").slideDown();
           $(event.target).children(".alert-warning").slideUp();
         } else {
           $(event.target).children(".alert-warning").slideUp();
           $(event.target).children(".alert-danger").slideUp();
           
-          const createComment = $.ajax('/comment', {
-            type: 'POST',
-            data: {
+          $.post('/comment', {
               inputText: inputText,
               attribute: urlValue
             },
-            dataType: "json"
-          })
-          .then(function (event) {
-            console.log('hello')
+          function () {
+            $comment = $("<li>").text(inputText);
+            $(event.target).parent().find('.cmtsection').append($comment);
             $(event.target).get(0).reset();
             $(".counter").text("150");
-            $.ajax('/', { method: 'GET' })
           });
         }
       });
-    
-   
-
-
   });
