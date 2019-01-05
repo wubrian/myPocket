@@ -245,8 +245,6 @@ app.post("/comment", (req, res) => {
         url_id: urlID,
         user_id: userID,
         text: comment,
-    }).then(() =>{
-      res.redirect('/');
     })
     .catch((err) => {
       console.log(err);

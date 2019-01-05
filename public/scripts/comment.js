@@ -25,7 +25,7 @@ $(document).ready(function() {
       }
     });
   
-    //post a new tweet
+    //post a new comment
       $('.submit-comment').submit(function (event) {
         const urlValue = $(event.target).data().url;
         event.preventDefault();
@@ -40,7 +40,7 @@ $(document).ready(function() {
         } else {
           $(".alert-danger").slideUp();
           $(".alert-warning").slideUp();
-          $.ajax('/comment', {
+          const createComment = $.ajax('/comment', {
             type: 'POST',
             data: {
               inputText: inputText,
@@ -48,8 +48,9 @@ $(document).ready(function() {
             },
             dataType: "json"
           })
-          .then(function (event) {
-            $("#submit-comment").get(0).reset();
+          createComment.then(function (event) {
+            alert('hello')
+            $(event.target).get(0).reset();
             $(".counter").text("150");
             $.ajax('/', { method: 'GET' })
           });
