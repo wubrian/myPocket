@@ -141,7 +141,8 @@ app.post('/login', (req, res) => {
           } else {
             res.status(403).send("Sorry, wrong credentials. Please check again");
           }
-          
+        } else {
+          res.status(403).send("Sorry, wrong credentials. Please check again");
         }
       })
     }
