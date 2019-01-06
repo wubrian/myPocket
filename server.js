@@ -335,20 +335,74 @@ app.post("/likes", (req, res) => {
 
 //create rating
 app.post("/rating", (req, res) => {
-  // const rating = req.body.rating;
-  // const url = ;
-  // const user = req.cookies["userCookie"];
-  // knex('comments').insert({
-  //   url_id: url,
-  //   user_id: user,
-  //   text: comment,
+  const userRating = req.body.rating;
+  const url = req.body.attribute;
+  const user = req.cookies["userCookie"];
+      
+  if(user){
+    const urlID = knex.select('id')
+    .from('urls')
+    .where('title', 'like', `${url}`)
+    .then((event) => {
+      return event;
+    }).catch((err) => {
+      console.log(err);
+    });
 
-  // }).then(() =>{
-  //   res.redirect('/');
-  // })
-  // .catch((err) => {
-  //   console.log(err);
-  // });    
+    const userID = knex.select('id')
+    .from('users')
+    .where('email', 'like', `${user}`)
+    .then( (event) => {
+      return event;
+    }).catch((err) => {
+      console.log(err);
+    });
+    const everythingLoaded = Promise.all([urlID, userID])
+    .then((record) => {
+      console.log('urlID' , record[0][0].id);
+      const urlID = record[0][0].id;
+      console.log('user ID' , record[1][0].id);
+      const userID = record[1][0].id;
+        knex('ratings').where({
+          url_id: `${urlID}`,
+          user_id: `${userID}`,
+      }).then((event) =>{
+        if(event.length === 0){
+          //insert rating coloumn
+          knex('ratings').insert({
+            url_id: `${urlID}`,
+            user_id: `${userID}`,
+            rating: userRating
+          }).then( () => {
+            res.sendStatus(200);
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+        }else{
+          //replace rating 
+          knex('ratings').where({
+            url_id: `${urlID}`,
+            user_id: `${userID}`,
+        }).update('rating', `${userRating}`)
+        .then( () => {
+          res.sendStatus(200);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });  
+      })
+     }
+  
+  else{
+    res.send('Please log in to rate');
+  }
+  
 });
 
 // Search request
