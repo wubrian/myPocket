@@ -409,7 +409,7 @@ app.post("/rating", (req, res) => {
 app.post("/search", (req, res) => {
   const searchText = req.body.search;
   console.log(searchText)
-  knex.select('title','description','image','users.name','categories.category','email','password')
+  const urlsTable = knex.select('title','description','image','users.name','categories.category','email','password')
   .from('urls')
   .leftJoin('categories','urls.category_id', 'categories.id')
   .leftJoin('users','urls.user_id', 'users.id')
