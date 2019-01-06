@@ -1,37 +1,15 @@
 $(document).ready(function() {
-   
-   
-   // $.ajax({
-   //    method: "GET",
-   //    url: "/api/users"
-   //  }).done((users) => {
-   //    for(user of users) {
-   //      $("<div>").text(user.name).appendTo($("body"));
-   //    }
-   //  });;
 
      //add a new like
-     $('.likes').on('click', function (event) {
-      const urlValue = $(event.target).data().url;
+     $('.likesbtn').on('click', function (event) {
+      const urlValue = $(event.target).data("url");
       event.preventDefault();
-      console.log($(event.target).data())
-      // var inputText = $(this).serialize().slice(5);
-      // var content = $(event.target).children().val();
-        
-        $.ajax('/likes', {
-          type: 'POST',
-          data: {
+        $.post('/likes', {
             attribute: urlValue
           },
-          dataType: "json"
-        })
-        .done(function (event) {
-          alert(hello)
-          console.log($(event.target))
-          $("#submit-comment").get(0).reset();
-          $(".counter").text("150");
+        function () {
+          location.reload();
         });
-      
     });
 
     function createTile(tileData){

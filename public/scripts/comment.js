@@ -1,14 +1,9 @@
 $(document).ready(function() {  
-    //clicking on the button
-   
-    
       $(".commentbtn").on('click', function(event) {
         $(event.target).parent().parent().parent().parent().find('section.comment').toggle("slow");
         $(event.target).parent().parent().parent().parent().find('textarea').focus();
-        // $("#cmtcontent").focus();
       });
-    
- 
+      
     //count characters in the textarea and display on bottom
     $("textarea").on('keyup', function(event) {
       const textareaContent = $(this).val();

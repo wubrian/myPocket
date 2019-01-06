@@ -79,6 +79,10 @@ function findUser(inputEmail, callback){
   });
 }
 
+function findLikes(){
+
+}
+
 app.post('/register', (req, res) => {
   let email = req.body.email;
   if (req.body.email === '' || req.body.password === '' || req.body.name === '') {
@@ -262,51 +266,70 @@ app.post("/comment", (req, res) => {
 
 //create likes
 app.post("/likes", (req, res) => {
-  // const url = req.body.attribute;
-  // const user = req.session.userCookie;
-  // console.log(url)
-  // if(user){
- 
+  const url = req.body.attribute;
+  const user = req.session.userCookie;
+  if(user){
+  const urlID = knex.select('id')
+  .from('urls')
+  .where('title', 'like', `${url}`)
+  .then((res) => {
+    return res;
+  }).catch((err) => {
+    console.log(err);
+  });
 
-  // const urlID = knex.select('id')
-  // .from('urls')
-  // .where('title', 'like', `${url}`)
-  // .then((res) => {
-  //   return res;
-  // }).catch((err) => {
-  //   console.log(err);
-  // });
+  const userID = knex.select('id')
+  .from('users')
+  .where('email', 'like', `${user}`)
+  .then( (res) => {
+    return res;
+  }).catch((err) => {
+    console.log(err);
+  });
 
-  // const userID = knex.select('id')
-  // .from('users')
-  // .where('email', 'like', `${user}`)
-  // .then( (res) => {
-  //   return res;
-  // }).catch((err) => {
-  //   console.log(err);
-  // });
-
-  // const everythingLoaded = Promise.all([urlID, userID])
-  // .then((record) => {
-  //   console.log('urlID' , record[0][0].id);
-  //   const urlID = record[0][0].id;
-  //   console.log('user ID' , record[1][0].id);
-  //   const userID = record[1][0].id;
-  //     knex('likes').where({
-  //       url_id: `${urlID}`,
-  //       user_id: `${userID}`,
-  //   }).then((event) =>{
-  //     // res.redirect('/');
-  //     console.log(event)
-  //   })
-  //   .catch((err) => {
-  //     console.log(err);
-  //   });  
-  //   })
-  //  }
-  // else{
-  //   res.send('Please log in to like');
-  // }
+  const everythingLoaded = Promise.all([urlID, userID])
+  .then((record) => {
+    console.log('urlID' , record[0][0].id);
+    const urlID = record[0][0].id;
+    console.log('user ID' , record[1][0].id);
+    const userID = record[1][0].id;
+      knex('likes').where({
+        url_id: `${urlID}`,
+        user_id: `${userID}`,
+    }).then((event) =>{
+      if(event.length === 0){
+        //insert like
+        knex('likes').insert({
+          url_id: `${urlID}`,
+          user_id: `${userID}`,
+        }).then( () => {
+          res.sendStatus(200);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+      }else{
+        //delete a like
+        knex('likes').where({
+          url_id: `${urlID}`,
+          user_id: `${userID}`,
+      }).del()
+      .then( () => {
+        res.sendStatus(200);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });  
+    })
+   }
+  else{
+    res.send('Please log in to like');
+  }
      
 });
 

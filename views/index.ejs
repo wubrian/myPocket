@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <title>Home</title>
+    <meta charset="UTF-8">
     <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
 
@@ -36,7 +37,7 @@
                           <a href="<%= urls[url].title %>">weblink</a>
                           <div class="icons">
                               <button  class="commentbtn" type="button"><i class="fas fa-edit"></i>Comment</button>
-                              <button  class="button likes" type="button" data-url="<%= urls[url].title %>"><i class="fas fa-thumbs-up"></i>Like
+                              <button  class="likesbtn" type="button" data-url="<%= urls[url].title %>"><i class="fas fa-thumbs-up"></i>Like
                                 <% for(var like in likes) { %>
                                     <%if(likes[like].url_id === urls[url].id){%>
                                         <%= likes[like].count%>
