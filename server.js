@@ -142,7 +142,7 @@ app.post('/login', (req, res) => {
             res.status(403).send("Sorry, wrong credentials. Please check again");
           }
         } else {
-          res.status(403).send("Sorry, wrong credentials. Please check again");
+          res.status(403).send("Sorry, wrong credentials. Please check");
         }
       })
     }
