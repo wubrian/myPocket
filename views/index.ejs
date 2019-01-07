@@ -62,7 +62,17 @@
                       <div class="cmtsection">
                             <% for(var comment in comments) { %>
                                 <%if(comments[comment].url_id === urls[url].id){%>
-                                   <li><%= comments[comment].text%></li> 
+                                  <% var commentBad = comments[comment].text.split("%20") %>
+                                  <%var commentParsed = "";%>
+                                  <%for (var i = 0; i < commentBad.length; i++) {%>
+                                   <%if(i === commentBad.length -1){%>
+                                     <%commentParsed += commentBad[i];%>
+                                   
+                                   <% }else {%>
+                                     <%commentParsed = commentParsed + commentBad[i] + ' ';%>
+                                   <%}%>
+                                  <%}%>
+                                   <li><%= commentParsed %></li> 
                                 <% } %>
                             <% } %>
                       </div>

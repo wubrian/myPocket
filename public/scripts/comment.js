@@ -41,7 +41,18 @@ $(document).ready(function() {
               attribute: urlValue
             },
           function () {
-            $comment = $("<li>").text(inputText);
+            var commentBad = inputText.split("%20");
+            var comment = "";
+            for (var i = 0; i < commentBad.length; i++) {
+             if(i === commentBad.length -1){
+               comment += commentBad[i];
+             }
+             else {
+               comment = comment + commentBad[i] + ' ';
+             }
+            }
+            
+            $comment = $("<li>").text(comment);
             $(event.target).parent().find('.cmtsection').append($comment);
             $(event.target).get(0).reset();
             $(".counter").text("150");

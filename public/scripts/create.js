@@ -16,7 +16,7 @@ $(document).ready(function() {
           category: category
       },
     function () {
-        
+      location.reload();
     });
       
     });

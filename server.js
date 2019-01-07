@@ -219,9 +219,20 @@ app.get("/", (req, res) => {
 
 //create comment
 app.post("/comment", (req, res) => {
-  const comment = req.body.inputText;
+  const commentBad = req.body.inputText.split("%20");
   const url = req.body.attribute;
   const user = req.session.userCookie;
+  var comment = "";
+  for (var i = 0; i < commentBad.length; i++) {
+   if(i === commentBad.length -1){
+     comment += commentBad[i];
+   }
+   else {
+     comment = comment + commentBad[i] + ' ';
+   }
+  }
+  
+  
   if(user){
     const urlID = knex.select('id')
     .from('urls')
