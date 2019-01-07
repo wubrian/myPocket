@@ -335,10 +335,9 @@ app.post("/likes", (req, res) => {
 
 //create rating
 app.post("/rating", (req, res) => {
-  const userRating = req.body.rating;
+  const userRating = parseInt(req.body.rating);
   const url = req.body.attribute;
-  const user = req.cookies["userCookie"];
-      
+  const user = req.session.userCookie;
   if(user){
     const urlID = knex.select('id')
     .from('urls')
