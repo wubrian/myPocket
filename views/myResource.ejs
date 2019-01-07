@@ -31,20 +31,20 @@
                   MyPocket
                 </div>
               </div>
-          <% } %>
           </div>
+          <% } %>
         </div>
       </div>
 
       <div class="contain">
           <h1>Liked Resources Carousel</h1> 
 
-            <% for(var url in urls) { %>
+            <% for(var url in allUrls) { %>
               <% for(var like in likes) { %>
-                <%if(likes[like].url_id === urls[url].id){%>
+                <%if(likes[like].url_id === allUrls[url].id){%>
               <div class="tile">
                   <div class="tile__media">
-                    <img class="tile__img" src="<%= urls[url].image %>" alt=""  />
+                    <img class="tile__img" src="<%= allUrls[url].image %>" alt=""  />
                   </div>
                   <div class="tile__details">
                     <div class="tile__title">

@@ -405,6 +405,50 @@ app.post("/rating", (req, res) => {
   
 });
 
+app.post("/create",(req,res) => {
+  const image = req.body.image;
+  const weblink = req.body.title;
+  const category = req.body.category;
+  const email = req.session.userCookie;
+  console.log(weblink,image,email,category);
+
+  const user_id = knex.select('id')
+    .from('users')
+    .where('email', 'like', `${email}`)
+    .then( (event) => {
+      return event;
+    }).catch((err) => {
+      console.log(err);
+    });
+
+    const category_id = knex.select('id')
+    .from('categories')
+    .where('category', 'like', `${category}`)
+    .then( (event) => {
+      return event;
+    }).catch((err) => {
+      console.log(err);
+    });
+    const newPromise = Promise.all([user_id, category_id])
+    .then((record) => {
+      const user_id = record[0][0].id;
+      const category_id = record[1][0].id;
+      knex('urls')
+          .insert({
+            title: `${weblink}`,
+            image: `${image}`,
+            category_id: `${category_id}`,
+            user_id: `${user_id}`
+          })
+          .then( () => {
+            res.sendStatus(200);
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+    })
+});
+
 // Search request
 app.post("/search", (req, res) => {
   const searchText = req.body.search;
@@ -654,6 +698,15 @@ app.get("/myresource", (req, res) => {
   }).catch((err) => {
     console.log(err);
   });
+  const allurlsTable = knex.select('urls.id','title','description','image','users.name','categories.category','email','password')
+  .from('urls')
+  .leftJoin('categories','urls.category_id', 'categories.id')
+  .leftJoin('users','urls.user_id', 'users.id')
+  .then((event) => {
+    return event;
+  }).catch((err) => {
+    console.log(err);
+  });
   const likesTable = knex.select('url_id')
   .count('id')
   .from('likes')
@@ -682,7 +735,7 @@ app.get("/myresource", (req, res) => {
     console.log(err);
   });
 
-  const everythingLoaded = Promise.all([likesTable, myReasourceTable,ratingsTable,commentsTable])
+  const everythingLoaded = Promise.all([likesTable, myReasourceTable,ratingsTable,commentsTable,allurlsTable])
   .then((record) => {
     // console.log('likesTable' , record[0]);
     // console.log('myReasourceTable' , record[1]);
@@ -693,6 +746,7 @@ app.get("/myresource", (req, res) => {
       urls: record[1],
       rates: record[2],
       comments: record[3],
+      allUrls: record[4],
       cookie: req.session.userCookie
     }
     res.render("myresource", templatevars);

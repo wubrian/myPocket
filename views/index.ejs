@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/styles/layout.css" type="text/css">
     <link rel="stylesheet" href="/styles/comment.css" type="text/css">
     <link rel="stylesheet" href="/styles/rating.css" type="text/css">
+    <link rel="stylesheet" href="/styles/float.css" type="text/css">
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -23,6 +24,7 @@
     <script type="text/javascript" src="/scripts/app.js"></script>
     <script type="text/javascript" src="/scripts/comment.js"></script>
     <script type="text/javascript" src="/scripts/rating.js"></script>
+    <script type="text/javascript" src="/scripts/create.js"></script>
 
 </head>
   <body>
@@ -87,5 +89,37 @@
               
             <% } %>
       </main>
+      <!-- <button  class="float" type="button"><i class="fa fa-plus my-float"></i></button> -->
+      <a href="#" class="float" data-toggle="modal" data-target="#exampleModal">
+        <i class="fa fa-plus my-float"></i>
+      </a>
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Create New URL</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form action="/create" method="POST">
+                <p>
+                  <input id="imagelink" type="text" placeholder="imagelink" name="imagelink" style="width: 400px">
+                </p>
+                <p>
+                  <input id="weblink" type="text" placeholder="weblink" name="weblink" style="width: 400px">
+                </p>
+                <p>
+                  <input id="category" type="text" placeholder="CS/WebDev/Engg" name="category" style="width: 400px">
+                </p>
+                <button id="createbtn" type="button" class="btn btn-primary">Create</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
   </body>
 </html>
