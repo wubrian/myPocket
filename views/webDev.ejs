@@ -1,80 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Home</title>
-
-    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
-    <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
-    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
-
-    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
-    <script type="text/javascript" src="/scripts/app.js"></script>
-    <script type="text/javascript" src="/routes/comment.js"></script>
-    <!-- CSS -->
-    <link rel="stylesheet" href="/styles/layout.css" type="text/css">
-    <link rel="stylesheet" href="/styles/comment.css" type="text/css">
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.6.1/js/all.js" integrity="sha384-R5JkiUweZpJjELPWqttAYmYM1P3SNEJRM6ecTQF05pFFtxmCO+Y1CiUhvuDzgSVZ" crossorigin="anonymous"></script>  
+      <title>Home</title>
+      <meta charset="UTF-8">
+      <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
+      <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
+  
+      <!-- CSS -->
+      <link rel="stylesheet" href="/styles/layout.css" type="text/css">
+      <link rel="stylesheet" href="/styles/comment.css" type="text/css">
+      <link rel="stylesheet" href="/styles/rating.css" type="text/css">
+      <link rel="stylesheet" href="/styles/float.css" type="text/css">
+  
+      <!-- Bootstrap -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+      <script defer src="https://use.fontawesome.com/releases/v5.6.1/js/all.js" integrity="sha384-R5JkiUweZpJjELPWqttAYmYM1P3SNEJRM6ecTQF05pFFtxmCO+Y1CiUhvuDzgSVZ" crossorigin="anonymous"></script>
+      
+      <!-- JS -->
+      <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+      <script type="text/javascript" src="/scripts/app.js"></script>
+      <script type="text/javascript" src="/scripts/comment.js"></script>
+      <script type="text/javascript" src="/scripts/rating.js"></script>
+      <script type="text/javascript" src="/scripts/create.js"></script>
 </head>
   <body>
-    <% include partials/_header %>
+      <% include partials/_header %>
       <h1>Web Dev:</h1>
       <main class="container">
-        <div class="row">
-          <% for(var url in urls) { %>
+          <div class="row">
+            <% for(var url in urls) { %>
+                
+              <div class="col-lg-4">
+                  <figure class="thisfig">
+                      <img src="<%= urls[url].image %>" alt="sample8" />
+                      <figcaption>
+                          <h2>Name: <span><%= urls[url].name %></span></h2>
+                          <a href="<%= urls[url].title %>">weblink</a>
+                          <div class="icons">
+                              <button  class="commentbtn" type="button"><i class="fas fa-edit"></i>Comment</button>
+                              <button  class="likesbtn" type="button" data-url="<%= urls[url].title %>"><i class="fas fa-thumbs-up"></i>Like
+                                <% for(var like in likes) { %>
+                                    <%if(likes[like].url_id === urls[url].id){%>
+                                        <%= likes[like].count%>
+                                    <% } %>
+                                <% } %>
+                                </button>
+                              <button  class="ratebtn" type="button"><i class="fas fa-star"></i>Rate
+                                <% for(var rate in rates) { %>
+                                    <%if(rates[rate].url_id === urls[url].id){%>
+                                        <%= Math.round(rates[rate].avg)%>
+                                    <% } %>
+                                <% } %>
+                            </button>
+                          </div>
+                      </figcaption>
+                  </figure>
+                  <section class="comment" id="cmt-$i">
+                      <div class="cmtsection">
+                            <% for(var comment in comments) { %>
+                                <%if(comments[comment].url_id === urls[url].id){%>
+                                  <% var commentBad = comments[comment].text.split("%20") %>
+                                  <%var commentParsed = "";%>
+                                  <%for (var i = 0; i < commentBad.length; i++) {%>
+                                   <%if(i === commentBad.length -1){%>
+                                     <%commentParsed += commentBad[i];%>
+                                   
+                                   <% }else {%>
+                                     <%commentParsed = commentParsed + commentBad[i] + ' ';%>
+                                   <%}%>
+                                  <%}%>
+                                   <li><%= commentParsed %></li> 
+                                <% } %>
+                            <% } %>
+                      </div>
+                    <form class="submit-comment" action="/comment" method="POST" data-url="<%= urls[url].title %>">
+                      <textarea name="text" placeholder="What would you like to comment?" class="cmtcontent"></textarea>
+                      <input type="submit" value="send">
+                      <span class="counter">150</span>
+                      <div class="alert-warning">
+                        <strong>Please Put Some Text Message!</strong>
+                      </div>
+                      <div class="alert-danger">
+                        <strong>You Have Exceeds 150 Characters!</strong>
+                      </div>
+                    </form>
+              </section>
+                <div class="rating" data-url="<%= urls[url].title %>">
+                        <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="Meh">5 stars</label>
+                        <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="Kinda bad">4 stars</label>
+                        <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="Kinda bad">3 stars</label>
+                        <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="Sucks big time">2 stars</label>
+                        <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="Sucks big time">1 star</label>
+                </div>                
+              </div>
               
-            <div class="col-lg-4">
-                <figure class="thisfig">
-                    <img src="<%= urls[url].image %>" alt="sample8" />
-                    <figcaption>
-                        <h2>Name: <span><%= urls[url].name %></span></h2>
-                        <a href="<%= urls[url].title %>">weblink</a>
-                        <div class="icons">
-                            <button  class="commentbtn" type="button"><i class="fas fa-edit"></i>Comment</button>
-                            <button  class="button" type="button"><i class="fas fa-thumbs-up"></i>Like
-                              <% for(var like in likes) { %>
-                                  <%if(likes[like].url_id === urls[url].id){%>
-                                      <%= likes[like].count%>
-                                  <% } %>
-                              <% } %>
-                              </button>
-                            <button  class="button" type="button"><i class="fas fa-star"></i>Rate
-                              <% for(var rate in rates) { %>
-                                  <%if(rates[rate].url_id === urls[url].id){%>
-                                      <%= Math.round(rates[rate].avg)%>
-                                  <% } %>
-                              <% } %>
-                          </button>
-                        </div>
-                    </figcaption>
-                </figure>
-                <section class="comment" id="cmt-$i">
-                    <div>
-                          <% for(var comment in comments) { %>
-                              <%if(comments[comment].url_id === urls[url].id){%>
-                                 <li><%= comments[comment].text%></li> 
-                              <% } %>
-                          <% } %>
-                    </div>
-                  <form id="submit-comment" action="/comment" method="POST" data-url="<%= urls[url].title %>">
-                    <textarea name="text" placeholder="What would you like to comment?" id="cmtcontent"></textarea>
-                    <input type="submit" value="send">
-                    <span class="counter">150</span>
-                    <div class="alert-warning">
-                      <strong>Please Put Some Text Message!</strong>
-                    </div>
-                    <div class="alert-danger">
-                      <strong>You Have Exceeds 150 Characters!</strong>
-                    </div>
-                  </form>
-            </section>                  
+            <% } %>
+      </main>
+      <!-- <button  class="float" type="button"><i class="fa fa-plus my-float"></i></button> -->
+      <a href="#" class="float" data-toggle="modal" data-target="#exampleModal">
+        <i class="fa fa-plus my-float"></i>
+      </a>
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Create New URL</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
-            
-          <% } %>
-    </main>
+            <div class="modal-body">
+              <form action="/create" method="POST">
+                <p>
+                  <input id="imagelink" type="text" placeholder="imagelink" name="imagelink" style="width: 400px">
+                </p>
+                <p>
+                  <input id="weblink" type="text" placeholder="weblink" name="weblink" style="width: 400px">
+                </p>
+                <p>
+                  <input id="category" type="text" placeholder="CS/WebDev/Engg" name="category" style="width: 400px">
+                </p>
+                <button id="createbtn" type="button" class="btn btn-primary">Create</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
   </body>
 </html>
